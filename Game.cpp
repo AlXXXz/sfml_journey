@@ -3,8 +3,35 @@
 Game::Game() : window(sf::VideoMode(800, 600), "Test") { 
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
-    background = sf::RectangleShape(sf::Vector2f(800, 600));
-    background.setFillColor(sf::Color::White);
+    // background = sf::RectangleShape(sf::Vector2f(800, 600));
+    // background.setFillColor(sf::Color::White);
+
+    layer1.setTexture(manager.GetTexture("2.png"));
+    layer2.setTexture(manager.GetTexture("3.png"));
+    layer3.setTexture(manager.GetTexture("4.png"));
+
+    layer1.setScale(
+        800 / layer1.getLocalBounds().width,
+        600 / layer1.getLocalBounds().height
+    );
+
+    layer2.setScale(
+        800 / layer2.getLocalBounds().width,
+        600 / layer2.getLocalBounds().height
+    );
+
+    layer3.setScale(
+        800 / layer3.getLocalBounds().width,
+        600 / layer3.getLocalBounds().height
+    );
+
+    background.setTexture(manager.GetTexture("5.png"));
+
+    background.setScale(
+        800 / background.getLocalBounds().width,
+        600 / background.getLocalBounds().height
+    );
+
     sf::Vector2i spriteSize(50, 37);
 
     auto& idleAnimation = animator.CreateAnimation("idle", "Sheet.png", sf::seconds(0.5), true);
@@ -16,10 +43,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "Test") {
         1500 / sprite.getLocalBounds().height
     );
 
-    // auto rect = sprite.getTextureRect();
-    // rect.left += rect.width;
-    // rect.width = - rect.width;
-    // sprite.setTextureRect(rect);
+    
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
@@ -68,8 +92,13 @@ void Game::update(sf::Time deltTime) {
     if (isMovingDown)
         movement.y += PlayerSpeed;
 
-    if (isMovingLeft)
+    if (isMovingLeft) {
         movement.x -= PlayerSpeed;
+        auto rect = sprite.getTextureRect();
+        rect.left += rect.width;
+        rect.width = - rect.width;
+        sprite.setTextureRect(rect);
+    }
 
     if (isMovingRight)
         movement.x += PlayerSpeed;
@@ -79,7 +108,10 @@ void Game::update(sf::Time deltTime) {
 
 void Game::render() {
     window.clear();
-    window.draw(background);
+    //window.draw(background);
+    window.draw(layer1);
+    window.draw(layer2);
+    window.draw(layer3);
     window.draw(sprite);
     window.display();
 }

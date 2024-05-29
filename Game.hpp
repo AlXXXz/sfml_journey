@@ -11,7 +11,15 @@
 class Game {
     AssetManager manager;
     sf::RenderWindow window;
-    sf::RectangleShape background;
+    //sf::RectangleShape background;
+
+    sf::Sprite layer1;
+    sf::Sprite layer2;
+    sf::Sprite layer3;
+    sf::Sprite layer4;
+
+
+    sf::Sprite background;
     sf::Sprite sprite;
     Animator animator = Animator(sprite);
 
